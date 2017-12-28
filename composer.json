@@ -1,0 +1,35 @@
+{
+	"name" : "barogla/user",
+	"description" : "User Component - Zoe",
+	"type" : "library",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "CurtisBarogla",
+			"email" : "curtis_barogla@outlook.fr",
+			"homepage" : "https://github.com/CurtisBarogla",
+			"role" : "T.B."
+		}
+	],
+	"minimum-stability" : "stable",
+	"homepage" : "https://github.com/CurtisBarogla/User",
+	"keywords" : [
+		"user"
+	],
+	"require" : {
+		"php" : ">= 7.1"
+	},
+	"extra" : {
+		"branch-alias" : {
+			"dev-master" : "2.0-dev"
+		}
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Zoe\\Component\\User\\" : "src",
+			"ZoeTest\\Component\\User\\" : "tests"
+		},
+		"exclude-from-classmap" : [
+			"tests"
+		]
+	}
+}
