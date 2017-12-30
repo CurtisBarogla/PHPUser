@@ -91,7 +91,7 @@ final class AuthenticatedUser extends User implements AuthenticatedUserInterface
     }
     
     /**
-     * Initialize an authenticated user from is authentication version
+     * Initialize an authenticated user from its authentication version
      * 
      * @param AuthenticationUserInterface $user
      *   Authentication user
