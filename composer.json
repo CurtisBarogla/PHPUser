@@ -31,5 +31,8 @@
 		"exclude-from-classmap" : [
 			"tests"
 		]
+	},
+	"require-dev" : {
+		"barogla/internal" : "dev-master"
 	}
 }
