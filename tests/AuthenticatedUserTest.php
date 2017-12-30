@@ -14,6 +14,7 @@ namespace ZoeTest\Component\User;
 
 use PHPUnit\Framework\TestCase;
 use Zoe\Component\User\AuthenticatedUser;
+use Zoe\Component\User\AuthenticationUserInterface;
 
 /**
  * AuthenticatedUser testcase
@@ -76,6 +77,25 @@ class AuthenticatedUserTest extends TestCase
         $json = \json_decode($json, true);
         
         $this->assertEquals($user, AuthenticatedUser::restore($json));
+    }
+    
+    /**
+     * @see \Zoe\Component\User\AuthenticatedUser::createFromAuthenticationUser()
+     */
+    public function testCreateFromAuthenticationUser(): void
+    {
+        $authenticationUser = $this->getMockBuilder(AuthenticationUserInterface::class)->getMock();
+        $authenticationUser->expects($this->once())->method("getName")->will($this->returnValue("Foo"));
+        $authenticationUser->expects($this->once())->method("isRoot")->will($this->returnValue(false));
+        $authenticationUser->expects($this->once())->method("getAttributes")->will($this->returnValue(["Foo" => "Bar"]));
+        $authenticationUser->expects($this->once())->method("getRoles")->will($this->returnValue(["Foo" => "Foo", "Bar" => "Bar"]));
+        
+        $user = AuthenticatedUser::createFromAuthenticationUser($authenticationUser);
+        $this->assertSame("Foo", $user->getName());
+        $this->assertFalse($user->isRoot());
+        $this->assertSame(["Foo" => "Bar"], $user->getAttributes());
+        $this->assertSame(["Foo" => "Foo", "Bar" => "Bar"], $user->getRoles());
+        $this->assertInstanceOf(\DateTimeInterface::class, $user->authenticatedAt());
     }
     
 }

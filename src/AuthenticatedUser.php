@@ -89,5 +89,19 @@ final class AuthenticatedUser extends User implements AuthenticatedUserInterface
             $json["attributes"], 
             $json["roles"]);
     }
+    
+    /**
+     * Initialize an authenticated user from is authentication version
+     * 
+     * @param AuthenticationUserInterface $user
+     *   Authentication user
+     * 
+     * @return AuthenticatedUser
+     *   Authenticated user from its Authentication version
+     */
+    public static function createFromAuthenticationUser(AuthenticationUserInterface $user): AuthenticatedUserInterface
+    {
+        return new AuthenticatedUser($user->getName(), new \DateTime(), $user->isRoot(), $user->getAttributes(), $user->getRoles());
+    }
 
 }
