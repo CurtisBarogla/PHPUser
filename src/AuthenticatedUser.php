@@ -32,10 +32,15 @@ final class AuthenticatedUser extends User implements AuthenticatedUserInterface
      * Initialize authenticated user
      * 
      * @param string $name
+     *   User name
      * @param \DateTimeInterface $authenticatedAt
+     *   Authentication time
      * @param bool $isRoot
-     * @param array $attributes
-     * @param array $roles
+     *   If the user if root
+     * @param array|null $attributes
+     *   Defaults attributes
+     * @param array|null $roles
+     *   Defaults roles
      */
     public function __construct(
         string $name, 

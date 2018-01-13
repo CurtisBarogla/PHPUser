@@ -15,7 +15,7 @@ namespace Zoe\Component\User\Loader;
 use Zoe\Component\User\AuthenticationUserInterface;
 
 /**
- * Make aware a component aware of a user loaded from a user loader
+ * Make a component aware of a user loaded from a user loader
  * 
  * @author CurtisBarogla <curtis_barogla@outlook.fr>
  *
