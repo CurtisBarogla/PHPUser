@@ -33,5 +33,10 @@
 		"exclude-from-classmap" : [
 			"tests"
 		]
+	},
+	"extra" : {
+		"branch-alias" : {
+			"master" : "2.0.x"
+		}
 	}
 }
