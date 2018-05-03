@@ -1,6 +1,6 @@
 {
-	"name" : "barogla/user",
-	"description" : "User Component - Zoe",
+	"name" : "ness/user",
+	"description" : "User Interaction Component - Ness",
 	"type" : "library",
 	"license" : "MIT",
 	"authors" : [{
@@ -13,26 +13,25 @@
 	"minimum-stability" : "stable",
 	"homepage" : "https://github.com/CurtisBarogla/User",
 	"keywords" : [
-		"user"
+		"user",
+		"interaction",
+		"role",
+		"hierarchy",
+		"storage",
+		"session",
+		"definition",
+		"loading"
 	],
 	"require" : {
 		"php" : ">= 7.1"
 	},
-	"extra" : {
-		"branch-alias" : {
-			"dev-master" : "2.0-dev"
-		}
-	},
 	"autoload" : {
 		"psr-4" : {
-			"Zoe\\Component\\User\\" : "src",
-			"ZoeTest\\Component\\User\\" : "tests"
+			"Ness\\Component\\User\\" : "src",
+			"NessTest\\Component\\User\\" : "tests"
 		},
 		"exclude-from-classmap" : [
 			"tests"
 		]
-	},
-	"require-dev" : {
-		"barogla/internal" : "dev-master"
 	}
 }
