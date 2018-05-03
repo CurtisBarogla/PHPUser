@@ -6,4 +6,3 @@ composer.lock
 coverage/
 index.php
 auth.json
-todo.md
