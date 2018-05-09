@@ -96,7 +96,7 @@ class User implements UserInterface
      */
     public function getAttribute(string $attribute)
     {
-        if(!isset($this->attributes[$attribute]))
+        if(null === $this->attributes || !\array_key_exists($attribute, $this->attributes))
             throw new UserAttributeNotFoundException("This attribute '{$attribute}' is not setted into user '{$this->name}'");
             
         return $this->attributes[$attribute];
@@ -108,7 +108,7 @@ class User implements UserInterface
      */
     public function deleteAttribute(string $attribute): void
     {
-        if(!isset($this->attributes[$attribute]))
+        if(null === $this->attributes || !\array_key_exists($attribute, $this->attributes))
             throw new UserAttributeNotFoundException("This attribute '{$attribute}' is not setted into user '{$this->name}'");
         
         unset($this->attributes[$attribute]);

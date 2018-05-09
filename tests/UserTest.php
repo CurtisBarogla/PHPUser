@@ -68,8 +68,10 @@ class UserTest extends UserTestCase
         $user = new User("Foo");
         
         $user->addAttribute("Foo", "Bar");
+        $user->addAttribute("Bar", null);
         
         $this->assertSame("Bar", $user->getAttribute("Foo"));
+        $this->assertNull($user->getAttribute("Bar"));
     }
     
     /**
@@ -80,8 +82,10 @@ class UserTest extends UserTestCase
         $user = new User("Foo");
         
         $user->addAttribute("Foo", "Bar");
+        $user->addAttribute("Bar", null);
         
         $this->assertNull($user->deleteAttribute("Foo"));
+        $this->assertNull($user->deleteAttribute("Bar"));
     }
     
     /**
