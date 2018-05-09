@@ -50,14 +50,6 @@ interface UserInterface
     public function addAttribute(string $attribute, $value): UserInterface;
     
     /**
-     * Get all attributes setted into the user
-     * 
-     * @return iterable|null
-     *   All attribute or null if none has been setted
-     */
-    public function getAttributes(): ?iterable;
-    
-    /**
      * Get an attribute from the user
      * 
      * @param string $attribute
