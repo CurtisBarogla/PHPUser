@@ -33,7 +33,7 @@ class User implements UserInterface
     /**
      * User attributes
      * 
-     * @var array|null
+     * @var iterable|null
      */
     protected $attributes;
     
@@ -79,6 +79,15 @@ class User implements UserInterface
         $this->attributes[$attribute] = $value;
         
         return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Ness\Component\User\UserInterface::getAttributes()
+     */
+    public function getAttributes(): ?iterable
+    {
+        return $this->attributes;
     }
     
     /**
