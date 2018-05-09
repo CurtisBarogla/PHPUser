@@ -47,6 +47,20 @@ class UserTest extends UserTestCase
     }
     
     /**
+     * @see \Ness\Component\User\User::getAttributes()
+     */
+    public function testGetAttributes(): void
+    {
+        $user = new User("Foo");
+        
+        $this->assertNull($user->getAttributes());
+        
+        $user->addAttribute("Foo", "Bar");
+        
+        $this->assertSame(["Foo" => "Bar"], $user->getAttributes());
+    }
+    
+    /**
      * @see \Ness\Component\User\User::getAttribute()
      */
     public function testGetAttribute(): void
