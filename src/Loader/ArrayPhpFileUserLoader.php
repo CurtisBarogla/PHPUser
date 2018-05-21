@@ -15,6 +15,7 @@ namespace Ness\Component\User\Loader;
 use Ness\Component\User\UserInterface;
 use Ness\Component\User\Exception\UserNotFoundException;
 use Ness\Component\User\User;
+use function Composer\Autoload\includeFile;
 
 /**
  * Try to load an user from a set of array defining users
@@ -45,12 +46,16 @@ class ArrayPhpFileUserLoader implements UserLoaderInterface
      * Initialize loader
      * 
      * @param array[array] $definitions
-     *   A set of arrays defining all loadables users
+     *   A set of arrays defining all loadables users. Can be either a php file returning an array or the array itself
      */
     public function __construct(array $definitions)
     {
-        foreach ($definitions as $definition)
+        foreach ($definitions as $definition) {
+            if(!\is_array($definition)) {
+                $definition = self::include($definition);
+            }
             $this->definitions = \array_merge($this->definitions, $definition);
+        }
     }
     
     /**
@@ -63,6 +68,26 @@ class ArrayPhpFileUserLoader implements UserLoaderInterface
             throw new UserNotFoundException("This user '{$name}' has been not found into ArrayPhpFileLoader");
         
         return new User($name, $this->definitions[$name]["attributes"] ?? null, $this->definitions[$name]["roles"] ?? null);
+    }
+    
+    /**
+     * Remove access to $this from included file
+     * 
+     * @param string $path
+     *  File path
+     *  
+     * @return array
+     *   This file MUST return an array
+     *  
+     * @throws \LogicException
+     *   If given path does not correspond to a file
+     */
+    private static function include(string $path): array
+    {
+        if(!\is_file($path))
+            throw new \LogicException("This file '{$path}' does not exist");
+        
+        return include $path;
     }
     
 }

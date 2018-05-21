@@ -35,7 +35,7 @@ class ArrayPhpFileUserLoaderTest extends UserTestCase
     {
         $path = __DIR__."/../Fixtures/Loader/ArrayPhpFileLoader";
         
-        $loader = new ArrayPhpFileUserLoader([include "{$path}/users1.php", include "{$path}/users2.php"]);
+        $loader = new ArrayPhpFileUserLoader(["{$path}/users1.php", include "{$path}/users2.php"]);
         
         $users = [
             "Foo" => $loader->loadUser("Foo"),
@@ -63,6 +63,17 @@ class ArrayPhpFileUserLoaderTest extends UserTestCase
     }
     
                     /**_____EXCEPTIONS_____**/
+    
+    /**
+     * @see \Ness\Component\User\Loader\ArrayPhpFileUserLoader::__construct()
+     */
+    public function testExceptionWhenAGivenFileDoesNotExist(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage("This file 'Foo' does not exist");
+        
+        $loader = new ArrayPhpFileUserLoader(["Foo"]);
+    }
     
     /**
      * @see \Ness\Component\User\Loader\ArrayPhpFileUserLoader::loadUser()
