@@ -56,7 +56,7 @@ class NativeSessionUserStorage implements UserStorageInterface
     public function __construct(bool $regenerate = true)
     {
         if(session_status() !== PHP_SESSION_ACTIVE)
-            throw new \LogicException("Session MUST be active to user NativeSessionUserStorage as a storage for users");
+            throw new \LogicException("Session MUST be active to use NativeSessionUserStorage as a storage for users");
         
         $this->session = &$_SESSION;
         $this->regenerate = $regenerate;

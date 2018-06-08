@@ -171,7 +171,7 @@ namespace NessTest\Component\User\Storage {
         public function testExceptionWhenSessionIsNotStarted(): void
         {
             $this->expectException(\LogicException::class);
-            $this->expectExceptionMessage("Session MUST be active to user NativeSessionUserStorage as a storage for users");
+            $this->expectExceptionMessage("Session MUST be active to use NativeSessionUserStorage as a storage for users");
             
             initGlobals(PHP_SESSION_DISABLED, false);
             
