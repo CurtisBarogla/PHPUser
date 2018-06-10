@@ -28,14 +28,11 @@
 	"autoload" : {
 		"psr-4" : {
 			"Ness\\Component\\User\\" : "src"
-		},
-		"exclude-from-classmap" : [
-			"tests"
-		]
+		}
 	},
 	"autoload-dev" : {
 		"psr-4" : {
-			"NessTest\\Component\\User" : "tests"
+			"NessTest\\Component\\User\\" : "tests"
 		}
 	}
 }
