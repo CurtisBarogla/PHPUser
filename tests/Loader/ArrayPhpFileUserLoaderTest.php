@@ -76,6 +76,18 @@ class ArrayPhpFileUserLoaderTest extends UserTestCase
     }
     
     /**
+     * @see \Ness\Component\User\Loader\ArrayPhpFileUserLoader::__construct()
+     */
+    public function testExceptionWhenAFileDoesNotReturnAnArray(): void
+    {
+        $file = __DIR__."/../Fixtures/Loader/ArrayPhpFileLoader/invalid_users_file.php";
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage("This file '{$file}' MUST return an array defining user loadables into it !");
+        
+        $loader = new ArrayPhpFileUserLoader([$file]);
+    }
+    
+    /**
      * @see \Ness\Component\User\Loader\ArrayPhpFileUserLoader::loadUser()
      */
     public function testExceptionWhenNoUserLoadable(): void

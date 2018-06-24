@@ -15,7 +15,6 @@ namespace Ness\Component\User\Loader;
 use Ness\Component\User\UserInterface;
 use Ness\Component\User\Exception\UserNotFoundException;
 use Ness\Component\User\User;
-use function Composer\Autoload\includeFile;
 
 /**
  * Try to load an user from a set of array defining users
@@ -52,12 +51,16 @@ class ArrayPhpFileUserLoader implements UserLoaderInterface
     {
         foreach ($definitions as $definition) {
             if(!\is_array($definition)) {
-                $definition = \Closure::bind(function(string $file): array {
-                    if(!\is_file($file))
-                        throw new \LogicException("This file '{$file}' does not exist");
-                        
-                    return include $file;
-                }, null)($definition);
+                try {
+                    $definition = \Closure::bind(function(string $file): array {
+                        if(!\is_file($file))
+                            throw new \LogicException("This file '{$file}' does not exist");
+                            
+                        return include $file;
+                    }, null)($definition);                    
+                } catch (\TypeError $e) {
+                    throw new \LogicException("This file '{$definition}' MUST return an array defining user loadables into it !");
+                }
             }
             $this->definitions = \array_merge($this->definitions, $definition);
         }
