@@ -52,7 +52,12 @@ class ArrayPhpFileUserLoader implements UserLoaderInterface
     {
         foreach ($definitions as $definition) {
             if(!\is_array($definition)) {
-                $definition = self::include($definition);
+                $definition = \Closure::bind(function(string $file): array {
+                    if(!\is_file($file))
+                        throw new \LogicException("This file '{$file}' does not exist");
+                        
+                    return include $file;
+                }, null)($definition);
             }
             $this->definitions = \array_merge($this->definitions, $definition);
         }
@@ -68,26 +73,6 @@ class ArrayPhpFileUserLoader implements UserLoaderInterface
             throw new UserNotFoundException("This user '{$name}' has been not found into ArrayPhpFileLoader");
         
         return new User($name, $this->definitions[$name]["attributes"] ?? null, $this->definitions[$name]["roles"] ?? null);
-    }
-    
-    /**
-     * Remove access to $this from included file
-     * 
-     * @param string $path
-     *  File path
-     *  
-     * @return array
-     *   This file MUST return an array
-     *  
-     * @throws \LogicException
-     *   If given path does not correspond to a file
-     */
-    private static function include(string $path): array
-    {
-        if(!\is_file($path))
-            throw new \LogicException("This file '{$path}' does not exist");
-        
-        return include $path;
     }
     
 }
