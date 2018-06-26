@@ -117,6 +117,18 @@ class UserTest extends UserTestCase
         $this->assertFalse($user->hasRole("Moz"));
     }
     
+    /**
+     * @see \Ness\Component\User\User::__toString()
+     */
+    public function test__toString(): void
+    {
+        $this->expectOutputString("Foo");
+        
+        $user = new User("Foo");
+        
+        echo $user;
+    }
+    
                     /**_____EXCEPTIONS_____**/
     
     /**

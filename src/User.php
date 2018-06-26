@@ -140,4 +140,15 @@ class User implements UserInterface
         return false;
     }
     
+    /**
+     * Output username
+     * 
+     * @return string
+     *   Output user name
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+    
 }
