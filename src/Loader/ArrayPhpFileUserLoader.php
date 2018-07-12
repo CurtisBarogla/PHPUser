@@ -17,7 +17,7 @@ use Ness\Component\User\Exception\UserNotFoundException;
 use Ness\Component\User\User;
 
 /**
- * Try to load an user from a set of array defining users
+ * Try to load a user from a set of array defining users
  * 
  * Each array MUST define a user respecting given format : 
  * All values prefixed by ? can be null

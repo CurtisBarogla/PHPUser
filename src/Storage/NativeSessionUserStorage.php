@@ -48,7 +48,7 @@ class NativeSessionUserStorage implements UserStorageInterface
      * Initialize storage
      * 
      * @param bool $regenerate
-     *   Set to true to regenerate session_id when an user is added or refreshed
+     *   Set to true to regenerate session_id when a user is added or refreshed
      * 
      * @throws \LogicException
      *   When session is not started
