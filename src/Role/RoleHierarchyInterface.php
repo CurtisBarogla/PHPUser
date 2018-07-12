@@ -12,6 +12,8 @@ declare(strict_types = 1);
 
 namespace Ness\Component\User\Role;
 
+use Ness\Component\User\Exception\UndefinedRoleException;
+
 /**
  * Represent a hierarchy of roles
  * 
@@ -29,6 +31,9 @@ interface RoleHierarchyInterface
      * 
      * @return array
      *   A list of role, included asked one, defining hierarchy associated to it
+     *   
+     * @throws UndefinedRoleException
+     *   When given role is not setted into the hierarchy
      */
     public function getRoles(string $role): array;
     
