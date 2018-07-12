@@ -66,13 +66,14 @@ class UserTest extends UserTestCase
      */
     public function testGetAttribute(): void
     {
-        $user = new User("Foo");
+        $user = new User("Foo", ["Moz" => "Poz"]);
         
         $user->addAttribute("Foo", "Bar");
         $user->addAttribute("Bar", null);
         
         $this->assertSame("Bar", $user->getAttribute("Foo"));
         $this->assertNull($user->getAttribute("Bar"));
+        $this->assertSame("Poz", $user->getAttribute("Moz"));
     }
     
     /**
@@ -131,6 +132,17 @@ class UserTest extends UserTestCase
     }
     
                     /**_____EXCEPTIONS_____**/
+    
+    /**
+     * @see \Ness\Component\User\User::__construct()
+     */
+    public function testException__constructWhenAnInvalidAttributeNameiIsGiven(): void
+    {
+        $this->expectException(InvalidUserAttributeException::class);
+        $this->expectExceptionMessage("Attribute name 'Foo-' does not respect attribute name convention pattern [a-zA-Z0-9_]");
+        
+        $user = new User("Foo", ["Bar" => "Foo", "Foo-" => "Bar"]);
+    }
     
     /**
      * @see \Ness\Component\User\User::addAttribute()
