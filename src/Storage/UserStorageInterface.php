@@ -32,7 +32,7 @@ interface UserStorageInterface
     public function get(): ?UserInterface;
     
     /**
-     * Store an user
+     * Store a user
      * 
      * @param UserInterface $user
      *   User to store

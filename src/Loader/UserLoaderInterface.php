@@ -16,7 +16,7 @@ use Ness\Component\User\UserInterface;
 use Ness\Component\User\Exception\UserNotFoundException;
 
 /**
- * Try to load an user by its name from externals sources
+ * Try to load a user by its name from externals sources
  * 
  * @author CurtisBarogla <curtis_barogla@outlook.fr>
  *
