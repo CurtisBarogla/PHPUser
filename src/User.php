@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Ness\Component\User;
 
 use Ness\Component\User\Exception\UserAttributeNotFoundException;
+use Ness\Component\User\Exception\InvalidUserAttributeException;
 
 /**
  * Basic implementation of UserInterface
@@ -76,6 +77,9 @@ class User implements UserInterface
      */
     public function addAttribute(string $attribute, $value): UserInterface
     {
+        if(0 === \preg_match("#^[a-zA-Z0-9_]+$#", $attribute))
+            throw new InvalidUserAttributeException("Attribute name '{$attribute}' does not respect attribute name convention pattern [a-zA-Z0-9_]");
+        
         $this->attributes[$attribute] = $value;
         
         return $this;

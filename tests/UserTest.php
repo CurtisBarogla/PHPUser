@@ -14,6 +14,7 @@ namespace Ness\Component\User;
 
 use NessTest\Component\User\UserTestCase;
 use Ness\Component\User\Exception\UserAttributeNotFoundException;
+use Ness\Component\User\Exception\InvalidUserAttributeException;
 
 /**
  * User testcase
@@ -130,6 +131,19 @@ class UserTest extends UserTestCase
     }
     
                     /**_____EXCEPTIONS_____**/
+    
+    /**
+     * @see \Ness\Component\User\User::addAttribute()
+     */
+    public function testExceptionAddAttributeWhenAttributeNameIsInvalid(): void
+    {
+        $this->expectException(InvalidUserAttributeException::class);
+        $this->expectExceptionMessage("Attribute name 'Foo-' does not respect attribute name convention pattern [a-zA-Z0-9_]");
+        
+        $user = new User("Foo");
+        
+        $user->addAttribute("Foo-", "Bar");
+    }
     
     /**
      * @see \Ness\Component\User\User::getAttribute()
