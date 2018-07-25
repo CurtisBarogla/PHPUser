@@ -13,7 +13,6 @@ declare(strict_types = 1);
 namespace Ness\Component\User;
 
 use NessTest\Component\User\UserTestCase;
-use Ness\Component\User\Exception\UserAttributeNotFoundException;
 use Ness\Component\User\Exception\InvalidUserAttributeException;
 
 /**
@@ -72,6 +71,7 @@ class UserTest extends UserTestCase
         
         $this->assertSame("Bar", $user->getAttribute("Foo"));
         $this->assertSame("Poz", $user->getAttribute("Moz"));
+        $this->assertNull($user->getAttribute("Bar"));
     }
     
     /**
@@ -84,6 +84,7 @@ class UserTest extends UserTestCase
         $user->addAttribute("Foo", "Bar");
         
         $this->assertNull($user->deleteAttribute("Foo"));
+        $this->assertNull($user->deleteAttribute("Bar"));
     }
     
     /**
@@ -164,32 +165,6 @@ class UserTest extends UserTestCase
         $user = new User("Foo");
         
         $user->addAttribute("Foo", null);
-    }
-    
-    /**
-     * @see \Ness\Component\User\User::getAttribute()
-     */
-    public function testExceptionGetAttributeWhenNoAttribute(): void
-    {
-        $this->expectException(UserAttributeNotFoundException::class);
-        $this->expectExceptionMessage("This attribute 'Foo' is not setted into user 'FooUser'");
-        
-        $user = new User("FooUser");
-        
-        $user->getAttribute("Foo");
-    }
-    
-    /**
-     * @see \Ness\Component\User\User::deleteAttribute()
-     */
-    public function testExceptionDeleteAttributeWhenNoAttribute(): void
-    {
-        $this->expectException(UserAttributeNotFoundException::class);
-        $this->expectExceptionMessage("This attribute 'Foo' is not setted into user 'FooUser'");
-        
-        $user = new User("FooUser");
-        
-        $user->deleteAttribute("Foo");
     }
     
 }

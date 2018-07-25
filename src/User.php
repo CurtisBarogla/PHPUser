@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Ness\Component\User;
 
-use Ness\Component\User\Exception\UserAttributeNotFoundException;
 use Ness\Component\User\Exception\InvalidUserAttributeException;
 
 /**
@@ -56,7 +55,7 @@ class User implements UserInterface
      *   User's role
      *   
      * @throws InvalidUserAttributeException
-     *   When an attribute name is invalid
+     *   When an attribute name or value is invalid
      */
     public function __construct(string $name, ?array $attributes = null, ?iterable $roles = null)
     {
@@ -107,11 +106,8 @@ class User implements UserInterface
      * @see \Ness\Component\User\UserInterface::getAttribute()
      */
     public function getAttribute(string $attribute)
-    {
-        if(!isset($this->attributes[$attribute]))
-            throw new UserAttributeNotFoundException("This attribute '{$attribute}' is not setted into user '{$this->name}'");
-            
-        return $this->attributes[$attribute];
+    {  
+        return $this->attributes[$attribute] ?? null;
     }
 
     /**
@@ -121,7 +117,7 @@ class User implements UserInterface
     public function deleteAttribute(string $attribute): void
     {
         if(!isset($this->attributes[$attribute]))
-            throw new UserAttributeNotFoundException("This attribute '{$attribute}' is not setted into user '{$this->name}'");
+            return;
         
         unset($this->attributes[$attribute]);
     }

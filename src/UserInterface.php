@@ -13,7 +13,6 @@ declare(strict_types = 1);
 namespace Ness\Component\User;
 
 use Ness\Component\User\Exception\InvalidUserAttributeException;
-use Ness\Component\User\Exception\UserAttributeNotFoundException;
 
 /**
  * Describe a basic user interacting with an application. 
@@ -35,6 +34,7 @@ interface UserInterface
     /**
      * Add an attribute into the user.
      * Attribute MUST respect [a-zA-Z0-9_] pattern
+     * Attribute value cannot be null
      * 
      * @param string $attribute
      *   Attribute identifier
@@ -46,6 +46,8 @@ interface UserInterface
      *   
      * @throws InvalidUserAttributeException
      *   When given attribute name is invalid
+     * @throws InvalidUserAttributeException
+     *   When given value is null
      */
     public function addAttribute(string $attribute, $value): UserInterface;
     
@@ -64,10 +66,8 @@ interface UserInterface
      *   Attribute to get
      * 
      * @return mixed
-     *   Must return exact value assigned to the asked attribute
-     *   
-     * @throws UserAttributeNotFoundException
-     *   When given attribute is not setted
+     *   Must return exact value assigned to the asked attribute. 
+     *   Return null if the attribute is not setted
      */
     public function getAttribute(string $attribute);
     
@@ -76,9 +76,6 @@ interface UserInterface
      * 
      * @param string $attribute
      *   Attribute identifier
-     *   
-     * @throws UserAttributeNotFoundException
-     *   When given attribute it not setted
      */
     public function deleteAttribute(string $attribute): void;
     
