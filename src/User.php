@@ -85,6 +85,9 @@ class User implements UserInterface
         if(0 === \preg_match("#^[a-zA-Z0-9_]+$#", $attribute))
             throw new InvalidUserAttributeException("Attribute name '{$attribute}' does not respect attribute name convention pattern [a-zA-Z0-9_]");
         
+        if(null === $value)
+            throw new InvalidUserAttributeException("Cannot set this attribute '{$attribute}'. Null value denied");
+            
         $this->attributes[$attribute] = $value;
         
         return $this;
@@ -105,7 +108,7 @@ class User implements UserInterface
      */
     public function getAttribute(string $attribute)
     {
-        if(null === $this->attributes || !\array_key_exists($attribute, $this->attributes))
+        if(!isset($this->attributes[$attribute]))
             throw new UserAttributeNotFoundException("This attribute '{$attribute}' is not setted into user '{$this->name}'");
             
         return $this->attributes[$attribute];
@@ -117,7 +120,7 @@ class User implements UserInterface
      */
     public function deleteAttribute(string $attribute): void
     {
-        if(null === $this->attributes || !\array_key_exists($attribute, $this->attributes))
+        if(!isset($this->attributes[$attribute]))
             throw new UserAttributeNotFoundException("This attribute '{$attribute}' is not setted into user '{$this->name}'");
         
         unset($this->attributes[$attribute]);

@@ -69,10 +69,8 @@ class UserTest extends UserTestCase
         $user = new User("Foo", ["Moz" => "Poz"]);
         
         $user->addAttribute("Foo", "Bar");
-        $user->addAttribute("Bar", null);
         
         $this->assertSame("Bar", $user->getAttribute("Foo"));
-        $this->assertNull($user->getAttribute("Bar"));
         $this->assertSame("Poz", $user->getAttribute("Moz"));
     }
     
@@ -84,10 +82,8 @@ class UserTest extends UserTestCase
         $user = new User("Foo");
         
         $user->addAttribute("Foo", "Bar");
-        $user->addAttribute("Bar", null);
         
         $this->assertNull($user->deleteAttribute("Foo"));
-        $this->assertNull($user->deleteAttribute("Bar"));
     }
     
     /**
@@ -155,6 +151,19 @@ class UserTest extends UserTestCase
         $user = new User("Foo");
         
         $user->addAttribute("Foo-", "Bar");
+    }
+    
+    /**
+     * @see \Ness\Component\User\User::addAttribute()
+     */
+    public function testExceptionAddAttributeWhenValueIsNull(): void
+    {
+        $this->expectException(InvalidUserAttributeException::class);
+        $this->expectExceptionMessage("Cannot set this attribute 'Foo'. Null value denied");
+        
+        $user = new User("Foo");
+        
+        $user->addAttribute("Foo", null);
     }
     
     /**
