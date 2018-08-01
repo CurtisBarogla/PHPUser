@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Ness\Component\User;
 
 use Ness\Component\User\Exception\InvalidUserAttributeException;
+use Ness\Component\User\Exception\InvalidUserAttributeValueException;
 
 /**
  * Basic implementation of UserInterface
@@ -84,8 +85,11 @@ class User implements UserInterface
         if(0 === \preg_match("#^[a-zA-Z0-9_]+$#", $attribute))
             throw new InvalidUserAttributeException("Attribute name '{$attribute}' does not respect attribute name convention pattern [a-zA-Z0-9_]");
         
-        if(null === $value)
-            throw new InvalidUserAttributeException("Cannot set this attribute '{$attribute}'. Null value denied");
+        if(
+            \is_resource($value) || 
+            ($value instanceof \Closure && \is_callable($value)) || 
+            (\is_object($value) && (new \ReflectionClass($value))->isAnonymous()))
+            throw new InvalidUserAttributeValueException("Cannot store this attribute '{$attribute}' as its value is invalid");
             
         $this->attributes[$attribute] = $value;
         
@@ -116,9 +120,6 @@ class User implements UserInterface
      */
     public function deleteAttribute(string $attribute): void
     {
-        if(!isset($this->attributes[$attribute]))
-            return;
-        
         unset($this->attributes[$attribute]);
     }
     

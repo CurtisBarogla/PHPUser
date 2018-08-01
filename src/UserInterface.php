@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Ness\Component\User;
 
 use Ness\Component\User\Exception\InvalidUserAttributeException;
+use Ness\Component\User\Exception\InvalidUserAttributeValueException;
 
 /**
  * Describe a basic user interacting with an application. 
@@ -34,7 +35,7 @@ interface UserInterface
     /**
      * Add an attribute into the user.
      * Attribute MUST respect [a-zA-Z0-9_] pattern
-     * Attribute value cannot be null
+     * Determining what a valid attribute is is up to the implementor's decision
      * 
      * @param string $attribute
      *   Attribute identifier
@@ -46,8 +47,8 @@ interface UserInterface
      *   
      * @throws InvalidUserAttributeException
      *   When given attribute name is invalid
-     * @throws InvalidUserAttributeException
-     *   When given value is null
+     * @throws InvalidUserAttributeValueException
+     *   When given attribute value is invalid
      */
     public function addAttribute(string $attribute, $value): UserInterface;
     

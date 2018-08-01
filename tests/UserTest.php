@@ -14,6 +14,7 @@ namespace Ness\Component\User;
 
 use NessTest\Component\User\UserTestCase;
 use Ness\Component\User\Exception\InvalidUserAttributeException;
+use Ness\Component\User\Exception\InvalidUserAttributeValueException;
 
 /**
  * User testcase
@@ -44,6 +45,7 @@ class UserTest extends UserTestCase
         $user = new User("Foo");
         
         $this->assertSame($user, $user->addAttribute("Foo", "Bar"));
+        $this->assertSame($user, $user->addAttribute("Bar", null));
     }
     
     /**
@@ -68,9 +70,11 @@ class UserTest extends UserTestCase
         $user = new User("Foo", ["Moz" => "Poz"]);
         
         $user->addAttribute("Foo", "Bar");
+        $user->addAttribute("Loz", null);
         
         $this->assertSame("Bar", $user->getAttribute("Foo"));
         $this->assertSame("Poz", $user->getAttribute("Moz"));
+        $this->assertNull($user->getAttribute("Loz"));
         $this->assertNull($user->getAttribute("Bar"));
     }
     
@@ -157,14 +161,39 @@ class UserTest extends UserTestCase
     /**
      * @see \Ness\Component\User\User::addAttribute()
      */
-    public function testExceptionAddAttributeWhenValueIsNull(): void
+    public function testExceptionAddAttributeWhenAResourceIsGivenAsValue(): void
     {
-        $this->expectException(InvalidUserAttributeException::class);
-        $this->expectExceptionMessage("Cannot set this attribute 'Foo'. Null value denied");
+        $this->expectException(InvalidUserAttributeValueException::class);
+        $this->expectExceptionMessage("Cannot store this attribute 'Foo' as its value is invalid");
         
         $user = new User("Foo");
+        $resource = \fopen(__FILE__, "r");
+        $user->addAttribute("Foo", $resource);
+    }
+    
+    /**
+     * @see \Ness\Component\User\User::addAttribute()
+     */
+    public function testExceptionAddAttributeWhenAClosureIsGivenAsValue(): void
+    {
+        $this->expectException(InvalidUserAttributeValueException::class);
+        $this->expectExceptionMessage("Cannot store this attribute 'Foo' as its value is invalid");
         
-        $user->addAttribute("Foo", null);
+        $user = new User("Foo");
+        $user->addAttribute("Foo", function(): void {});
+    }
+    
+    /**
+     * @see \Ness\Component\User\User::addAttribute()
+     */
+    public function testExceptionAddAttributeWhenAnAnonymousClassIsGivenAsValue(): void
+    {
+        $this->expectException(InvalidUserAttributeValueException::class);
+        $this->expectExceptionMessage("Cannot store this attribute 'Foo' as its value is invalid");
+        
+        $user = new User("Foo");
+        $resource = \fopen(__FILE__, "r");
+        $user->addAttribute("Foo", new class {});
     }
     
 }
