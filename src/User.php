@@ -64,7 +64,7 @@ class User implements UserInterface
         (null !== $attributes) ? \array_walk($attributes, function($value, string $attribute): void {
             $this->addAttribute($attribute, $value);
         }) : $this->attributes = null;
-        $this->roles = $roles;
+        $this->roles = (null === $roles) ? null : \array_unique($roles);
     }
     
     /**
@@ -138,15 +138,7 @@ class User implements UserInterface
      */
     public function hasRole(string $role): bool
     {
-        if(null === $this->roles)
-            return false;
-        
-        foreach ($this->roles as $userRole) {
-            if($role === $userRole)
-                return true;
-        }
-        
-        return false;
+        return (null !== $this->roles) ? \in_array($role, $this->roles) : false;
     }
     
     /**
