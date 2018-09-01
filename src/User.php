@@ -52,13 +52,13 @@ class User implements UserInterface
      *   User name
      * @param array|null $attributes
      *   Default user's attributes
-     * @param iterable|null $roles
+     * @param array|null $roles
      *   User's role
      *   
      * @throws InvalidUserAttributeException
      *   When an attribute name or value is invalid
      */
-    public function __construct(string $name, ?array $attributes = null, ?iterable $roles = null)
+    public function __construct(string $name, ?array $attributes = null, ?array $roles = null)
     {
         $this->name = $name;
         (null !== $attributes) ? \array_walk($attributes, function($value, string $attribute): void {
