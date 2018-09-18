@@ -15,7 +15,6 @@ namespace NessTest\Component\User\Role;
 use NessTest\Component\User\UserTestCase;
 use Ness\Component\User\Role\RoleHierarchyUserInteraction;
 use Ness\Component\User\UserInterface;
-use Ness\Component\User\Exception\UndefinedRoleException;
 
 /**
  * RoleHierarchyUserInteraction testcase
@@ -44,6 +43,11 @@ class RoleHierarchyUserInteractionTest extends UserTestCase
         
         $user = $this->getMockBuilder(UserInterface::class)->getMock();
         $user->expects($this->exactly(3))->method("getRoles")->will($this->onConsecutiveCalls(["Moz", "Poz"], ["Moz", "Poz"], null));
+        $user
+            ->expects($this->exactly(4))
+            ->method("hasRole")
+            ->withConsecutive(["Foo"], ["Loz"], ["Foo"], ["Kek"])
+            ->will($this->onConsecutiveCalls(false, false, false, true));
         
         $this->assertNull($hierarchy->setUser($user));
         $this->assertSame($user, $hierarchy->getUser());
@@ -51,26 +55,7 @@ class RoleHierarchyUserInteractionTest extends UserTestCase
         $this->assertTrue($hierarchy->userHasRole("Foo"));
         $this->assertFalse($hierarchy->userHasRole("Loz"));
         $this->assertFalse($hierarchy->userHasRole("Foo"));
-    }
-    
-                    /**_____EXCEPTIONS_____**/
-    
-    /**
-     * @see \Ness\Component\User\Role\RoleHierarchyUserInteraction::userHasRole()
-     */
-    public function testExceptionWhenHierarchyIsInStrictModeAndARoleUserIsNotSettedIntoIt(): void
-    {
-        $this->expectException(UndefinedRoleException::class);
-        $this->expectExceptionMessage("Role 'Foo' defined into user 'FooUser' is not setted into role hierarchy");
-        
-        $user = $this->getMockBuilder(UserInterface::class)->getMock();
-        $user->expects($this->once())->method("getName")->will($this->returnValue("FooUser"));
-        $user->expects($this->once())->method("getRoles")->will($this->returnValue(["Foo", "Bar"]));
-        
-        $hierarchy = new RoleHierarchyUserInteraction(true);
-        $hierarchy->setUser($user);
-        
-        $hierarchy->userHasRole("Foo");
+        $this->assertTrue($hierarchy->userHasRole("Kek"));
     }
     
 }

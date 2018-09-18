@@ -25,25 +25,6 @@ class RoleHierarchyUserInteraction extends RoleHierarchy implements RoleHierarch
 {
     
     use UserAwareTrait;
-
-    /**
-     * Will throw an exception if a given user role is not defined into the hierarchy
-     * 
-     * @var bool
-     */
-    private $strict;
-    
-    /**
-     * Initialize hierarchy
-     * 
-     * @param bool $strict
-     *   If setted to true, will throw an exception if a user's role is not defined into the hierarchy. 
-     *   Else will continue and return false if no role corresponds
-     */
-    public function __construct(bool $strict = false)
-    {
-        $this->strict = $strict;
-    }
     
     /**
      * {@inheritDoc}
@@ -51,9 +32,12 @@ class RoleHierarchyUserInteraction extends RoleHierarchy implements RoleHierarch
      */
     public function userHasRole(string $role): bool
     {
-        $userRoles = $this->getUser()->getRoles();
+        $user = $this->getUser();
         
-        if (null === $userRoles)
+        if($user->hasRole($role))
+            return true;
+        
+        if (null === $userRoles = $user->getRoles())
             return false;
         
         foreach ($userRoles as $userRole) {
@@ -61,9 +45,6 @@ class RoleHierarchyUserInteraction extends RoleHierarchy implements RoleHierarch
                 if(\in_array($role, $this->getRoles($userRole)))
                     return true;                
             } catch (UndefinedRoleException $e) {
-                if($this->strict)
-                    throw new UndefinedRoleException("Role '{$userRole}' defined into user '{$this->getUser()->getName()}' is not setted into role hierarchy");
-                
                 continue;
             }
         }

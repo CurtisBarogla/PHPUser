@@ -31,7 +31,7 @@ class RoleHierarchy implements RoleHierarchyInterface
     protected $roles = [];
     
     /**
-     * Map reprensenting hierarchy for each main role
+     * Map representing hierarchy for each main role
      * 
      * @var array
      */
