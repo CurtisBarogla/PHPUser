@@ -42,7 +42,7 @@ class NativeSessionUserStorage implements UserStorageInterface
      * 
      * @var string
      */
-    public const NATIVE_SESSION_USER_IDENTIFIER = "NATIVE_STORAGE_USER";
+    public const NATIVE_SESSION_USER_IDENTIFIER = "NESS_NATIVE_STORAGE_USER";
     
     /**
      * Initialize storage
