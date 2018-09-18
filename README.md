@@ -281,7 +281,7 @@ $hierarchy->addRole("InvalidRole", ["InvalidParent"]);
 
 // now let's get a role
 $hierarchy->getRole("BaseFooRole"); // will simply return ["BaseFooRole"]
-$hierarchy->getRole("FooRole"); // will return ["FooRole", "BarFooRole"]
+$hierarchy->getRole("FooRole"); // will return ["FooRole", "BaseFooRole"]
 $hierarchy->getRole("KekRole") // will return ["KekRole", "FooRole", "BaseFooRole", "BarRole", "BaseBarRole"]
 
 // same as declaring a non setted parent role, trying to get a non setted role from the hierarchy will result a UndefinedRoleException
