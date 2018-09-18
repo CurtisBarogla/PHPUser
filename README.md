@@ -308,11 +308,11 @@ $hierarchy->addRole("KekRole", ["FooRole", "BarRole"]);
 $user = new User("Foo", null, ["KekRole"]);
 
 // checking if the user has role BaseFooRole
-$user->hasRole("BarFooRole") // will return false...
+$user->hasRole("BaseFooRole") // will return false...
 
 // if we use the role hierarchy
 $hierarchy->setUser($user);
-$hierarchy->userHasRole("BarFooRole") // will return true as expected
+$hierarchy->userHasRole("BaseFooRole") // will return true as expected
 ~~~
 
 
