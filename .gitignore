@@ -1,8 +1,8 @@
-.settings/
-.buildpath
-.project
-vendor/
-composer.lock
-coverage/
-index.php
-auth.json
+/.settings/
+/.buildpath
+/.project
+/vendor/
+/composer.lock
+/coverage/
+/index.php
+/auth.json
