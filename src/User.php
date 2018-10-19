@@ -14,7 +14,6 @@ namespace Ness\Component\User;
 
 use Ness\Component\User\Exception\InvalidUserAttributeException;
 use Ness\Component\User\Exception\InvalidUserAttributeValueException;
-use Ness\Component\User\Exception\UserRestorationException;
 
 /**
  * Basic implementation of UserInterface
@@ -151,42 +150,6 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->name;
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see \JsonSerializable::jsonSerialize()
-     */
-    public function jsonSerialize()
-    {
-        return $this->toJsonSerialize();        
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see \Ness\Component\User\UserInterface::restoreUserFromJson()
-     */
-    public static function restoreUserFromJson(string $json): UserInterface
-    {
-        if(null !== $json = \json_decode($json, true))
-            return new self($json[self::JSON_NAME_INDEX], $json[self::JSON_ATTRIBUTES_INDEX], $json[self::JSON_ROLES_INDEX]);            
-
-        throw new UserRestorationException("An error happen when restoring the user");        
-    }
-    
-    /**
-     * All informations to pass into the json serialize process
-     * 
-     * @return array
-     *   All informations about the user
-     */
-    protected function toJsonSerialize(): array
-    {
-        return [
-            self::JSON_NAME_INDEX           =>  $this->name,
-            self::JSON_ATTRIBUTES_INDEX     =>  $this->attributes,
-            self::JSON_ROLES_INDEX          =>  $this->roles
-        ];
     }
 
 }

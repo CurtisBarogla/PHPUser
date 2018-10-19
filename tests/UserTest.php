@@ -15,7 +15,6 @@ namespace Ness\Component\User;
 use NessTest\Component\User\UserTestCase;
 use Ness\Component\User\Exception\InvalidUserAttributeException;
 use Ness\Component\User\Exception\InvalidUserAttributeValueException;
-use Ness\Component\User\Exception\UserRestorationException;
 
 /**
  * User testcase
@@ -133,30 +132,6 @@ class UserTest extends UserTestCase
         echo $user;
     }
     
-    /**
-     * @see \Ness\Component\User\User::jsonSerialize()
-     */
-    public function testJsonSerialize(): void
-    {
-        $user = new User("Foo", ["foo" => "bar"], ["ROLE_FOO"]);
-        
-        $this->assertNotFalse(\json_encode($user));
-    }
-    
-    /**
-     * @see \Ness\Component\User\User::restoreUserFromJson()
-     */
-    public function testRestoreUserFromJson(): void
-    {
-        $user = new User("Foo", ["foo", "bar"], ["ROLE_FOO"]);
-
-        $this->assertEquals($user, User::restoreUserFromJson(\json_encode($user)));
-        
-        $user = new User("Foo", null, null);
-        
-        $this->assertEquals($user, User::restoreUserFromJson(\json_encode($user)));
-    }
-    
                     /**_____EXCEPTIONS_____**/
     
     /**
@@ -219,17 +194,6 @@ class UserTest extends UserTestCase
         $user = new User("Foo");
         $resource = \fopen(__FILE__, "r");
         $user->addAttribute("Foo", new class {});
-    }
-    
-    /**
-     * @see \Ness\Component\User\User::restoreUserFromJson()
-     */
-    public function testExceptionRestoreUserFromJson(): void
-    {
-        $this->expectException(UserRestorationException::class);
-        $this->expectExceptionMessage("An error happen when restoring the user");
-        
-        User::restoreUserFromJson("foo");
     }
     
 }

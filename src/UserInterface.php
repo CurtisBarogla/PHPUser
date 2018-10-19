@@ -14,7 +14,6 @@ namespace Ness\Component\User;
 
 use Ness\Component\User\Exception\InvalidUserAttributeException;
 use Ness\Component\User\Exception\InvalidUserAttributeValueException;
-use Ness\Component\User\Exception\UserRestorationException;
 
 /**
  * Describe a basic user interacting with an application. 
@@ -22,7 +21,7 @@ use Ness\Component\User\Exception\UserRestorationException;
  * @author CurtisBarogla <curtis_barogla@outlook.fr>
  *
  */
-interface UserInterface extends \JsonSerializable
+interface UserInterface
 {
     
     /**
@@ -121,19 +120,5 @@ interface UserInterface extends \JsonSerializable
      *   True if the user holds this role. False otherwise
      */
     public function hasRole(string $role): bool;
-    
-    /**
-     * Restore a user from his json representation
-     *
-     * @param string $json
-     *   Json user representation
-     *
-     * @return UserInterface
-     *   User restored from json
-     *
-     * @throws UserRestorationException
-     *   When an error happen during the restoration of the user
-     */
-    public static function restoreUserFromJson(string $json): UserInterface;
     
 }
