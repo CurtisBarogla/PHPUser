@@ -3,12 +3,13 @@
 This library provides you a simple way to interact with a user over an application via a set of interfaces
 
 0. [How to install](#0-installing-the-component)
-1. [Interacting with the user](#1-interacting-with-the-user)
-2. [Storing user](#2-storing-user)
-3. [Loading user](#3-loading-user)
-4. [Role hierarchy](#4-role-hierarchy)
-5. [Contributing](#5-contributing)
-6. [License](#6-license)
+1. [Why ?](#1-why)
+2. [Interacting with the user](#2-interacting-with-the-user)
+3. [Storing user](#3-storing-user)
+4. [Loading user](#4-loading-user)
+5. [Role hierarchy](#5-role-hierarchy)
+6. [Contributing](#6-contributing)
+7. [License](#7-license)
 
 ## 0. Installing the component
 
@@ -18,7 +19,22 @@ User library can be installed via composer
 $ composer require ness/user
 ~~~
 
-## 1. Interacting with the user
+## 1. Why ?
+
+This library allows you to retrieve users from multiple sources and uniform the interaction between your application and a user via multiple interfaces
+
+Mostly used has a base for other libraries.
+
+For example : (some libraries using/suggesting **ness/user**) :
+
+- [ness/acl](https://github.com/CurtisBarogla/Acl) : implementation of ACL based on the user instead of just specific items (role, name...),
+- [ness/authentication](https://github.com/CurtisBarogla/Authentication) : simply convert the base user into an authenticated one via the given interface,
+- [ness/password](https://github.com/CurtisBarogla/Password) : this library is using ness/user allowing you to implement password rotation on critic users,
+- and others, you can see the full list here : [dependent](https://packagist.org/packages/ness/user/dependents) - [suggestion](https://packagist.org/packages/ness/user/suggesters).
+
+This library is **fully unit tested**.
+
+## 2. Interacting with the user
 
 UserInterface allows you to interact with the user on multiple ways.
 
@@ -36,13 +52,13 @@ $name = $user->getName() // allow you to get the username
 echo $user // output Foo
 ~~~
 
-### 1.1 Attributes
+### 2.1 Attributes
 
 Attributes are simples values linked to a user allowing you to store more informations.
 
 They can be setted during the user initialization and later altered via some methods.
 
-#### 1.1.1 Accessing attributes
+#### 2.1.1 Accessing attributes
 
 ~~~php
 <?php
@@ -67,7 +83,7 @@ $user->getAttributes(); // returns null
 $user->getAttribute("foo") // returns null as well
 ~~~
 
-#### 1.1.2 Altering user's attributes
+#### 2.1.2 Altering user's attributes
 
 Attributes, as already said, can be altered after the user has been initialized. 
 
@@ -93,7 +109,7 @@ The native implementation of UserInterface restricts types given as an attribute
 
 Trying to set an invalid name or one of this invalid value as an attribute for this implementation will result a InvalidUserAttributeValueException. 
 
-### 1.2 Roles
+### 2.2 Roles
 
 Roles are simple values setted into the user. <br />
 Can be useful for allowing/disallowing him access to some features of the application.
@@ -114,7 +130,7 @@ $hasRoleAdmin = $user->hasRole("ADMIN") // setted to false
 
 Once the user has been initialized, the interface and this implementation does not allow you to update the roles already defined.
 
-## 2. Storing user
+## 3. Storing user
 
 User store allows you to persist a user during its navigation in your application to interact with it.
 
@@ -144,13 +160,13 @@ $store->delete(); // the user Foo has been popped out of the store
 $store->get(); user has been popped out previously from the store, returns null in this case
 ~~~
 
-### 2.1 NativeSessionUserStorage
+### 3.1 NativeSessionUserStorage
 
 This library comes with a simple implementation of UserStorageInterface using the native php session mechanism.
 
 **Session MUST be active or a LogicException will be thrown.**
 
-## 3. Loading user
+## 4. Loading user
 
 A user loader allow you to retrieve a user by its name from an external storage where all informations about your users are.
 
@@ -158,7 +174,7 @@ The interface consists in a simple method loadUser();
 
 **Trying to get a non reachable user will result a UserNotFoundException**
 
-### 3.1 ArrayPhpFileUserLoader
+### 4.1 ArrayPhpFileUserLoader
 
 This library allows you via the ArrayPhpFileUserLoader class to retrieve a specific user from arrays or files returning an array.
 
@@ -228,7 +244,7 @@ $adminBar = $loader->loadUser("AdminUserBar");
 // both, in this case, users are initialized with no attribute and an ADMIN role setted
 ~~~
 
-### 2.2 UserLoaderCollection
+### 4.2 UserLoaderCollection
 
 The UserLoaderCollection is a simple container registering a set of UserLoaderInterface implementations doing its best to find a loadable user from all registered loaders.
 
@@ -251,7 +267,7 @@ $admin = $loader->loadUser("AdminFoo"); // not found into the first loader, so t
 
 That was an abstract representation of the UserLoaderCollection, but we can imagine wanting to load users from multiple sources without the need to always provide a specific one each time.
 
-## 4. Role hierarchy
+## 5. Role hierarchy
 
 Sometimes, it can be useful for a role to inherit from one or multiple roles therefore granting rigths (for example) over your application for the given role all all its parents.
 
@@ -259,7 +275,7 @@ RoleHierachyInterface allows you to set this behaviour and get for a specific ro
 
 Trying to get a non setted role from the hierarchy will result a UndefinedRoleException.
 
-### 4.1 Role hierarchy
+### 5.1 Role hierarchy
 
 To initialize a role hierarchy, this library provides you a simple implementation or RoleHierarchyInterface.
 
@@ -288,7 +304,7 @@ $hierarchy->getRole("KekRole") // will return ["KekRole", "FooRole", "BaseFooRol
 $hierarchy->getRole("InvalidRole");
 ~~~
 
-### 4.2 Linking a user to a role hierarchy
+### 5.2 Linking a user to a role hierarchy
 
 A more user friendly interface (RoleHierarchyUserInteractionInterface) provides you a way to interact directly with a user instead of checking all roles of a user over the role hierarchy.
 
@@ -316,11 +332,11 @@ $hierarchy->userHasRole("BaseFooRole") // will return true as expected
 ~~~
 
 
-## 5. Contributing
+## 6. Contributing
 
 Found something **wrong** (nothing is perfect) ? Wanna talk or participate ? <br />
 Issue the case or contact me at [curtis_barogla@outlook.fr](mailto:curtis_barogla@outlook.fr)
 
-## 6. License
+## 7. License
 
 The Ness User component is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
