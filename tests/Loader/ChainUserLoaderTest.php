@@ -14,7 +14,7 @@ namespace NessTest\Component\User\Loader;
 
 use NessTest\Component\User\UserTestCase;
 use Ness\Component\User\Loader\UserLoaderInterface;
-use Ness\Component\User\Loader\UserLoaderCollection;
+use Ness\Component\User\Loader\ChainUserLoader;
 use Ness\Component\User\Exception\UserNotFoundException;
 use Ness\Component\User\UserInterface;
 
@@ -26,23 +26,23 @@ use Ness\Component\User\UserInterface;
  * @author CurtisBarogla <curtis_barogla@outlook.fr>
  *
  */
-class UserLoaderCollectionTest extends UserTestCase
+class ChainUserLoaderTest extends UserTestCase
 {
     
     /**
-     * @see \Ness\Component\User\Loader\UserLoaderCollection::addLoader()
+     * @see \Ness\Component\User\Loader\ChainUserLoader::addLoader()
      */
     public function testAddLoader(): void
     {
         $loader = $this->getMockBuilder(UserLoaderInterface::class)->getMock();
         
-        $collection = new UserLoaderCollection($loader);
+        $collection = new ChainUserLoader($loader);
         
         $this->assertNull($collection->addLoader($loader));
     }
     
     /**
-     * @see \Ness\Component\User\Loader\UserLoaderCollection::loadUser()
+     * @see \Ness\Component\User\Loader\ChainUserLoader::loadUser()
      */
     public function testLoadUser(): void
     {
@@ -56,7 +56,7 @@ class UserLoaderCollectionTest extends UserTestCase
         $added->expects($this->once())->method("loadUser")->with("Foo")->will($this->returnValue($userFound));
         $neverCalled->expects($this->never())->method("loadUser");
         
-        $collection = new UserLoaderCollection($defaultLoader);
+        $collection = new ChainUserLoader($defaultLoader);
         $collection->addLoader($added);
         $collection->addLoader($neverCalled);
         
@@ -66,7 +66,7 @@ class UserLoaderCollectionTest extends UserTestCase
                     /**_____EXCEPTIONS_____**/
     
     /**
-     * @see \Ness\Component\User\Loader\UserLoaderCollection::loadUser()
+     * @see \Ness\Component\User\Loader\ChainUserLoader::loadUser()
      */
     public function testExceptionWhenNoUserCanBeLoadedOverAllRegisteredLoaders(): void 
     {
@@ -79,7 +79,7 @@ class UserLoaderCollectionTest extends UserTestCase
         $defaultLoader->expects($this->once())->method("loadUser")->with("Foo")->will($this->throwException(new UserNotFoundException()));
         $added->expects($this->once())->method("loadUser")->with("Foo")->will($this->throwException(new UserNotFoundException()));
         
-        $collection = new UserLoaderCollection($defaultLoader);
+        $collection = new ChainUserLoader($defaultLoader);
         $collection->addLoader($added);
         
         $collection->loadUser("Foo");

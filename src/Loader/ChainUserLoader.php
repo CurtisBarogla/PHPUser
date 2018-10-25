@@ -21,7 +21,7 @@ use Ness\Component\User\Exception\UserNotFoundException;
  * @author CurtisBarogla <curtis_barogla@outlook.fr>
  *
  */
-class UserLoaderCollection implements UserLoaderInterface
+class ChainUserLoader implements UserLoaderInterface
 {
     
     /**
