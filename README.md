@@ -244,9 +244,9 @@ $adminBar = $loader->loadUser("AdminUserBar");
 // both, in this case, users are initialized with no attribute and an ADMIN role setted
 ~~~
 
-### 4.2 UserLoaderCollection
+### 4.2 ChainUserLoader
 
-The UserLoaderCollection is a simple container registering a set of UserLoaderInterface implementations doing its best to find a loadable user from all registered loaders.
+The ChainUserLoader is a simple container registering a set of UserLoaderInterface implementations doing its best to find a loadable user from all registered loaders.
 
 ~~~php
 <?php
@@ -256,8 +256,8 @@ $loaderMember = new UserLoaderImplementation();
 // and via this one provides all admins
 $loaderAdmin = new UserLoaderImplementation();
 
-// now let's configure the UserLoaderCollection
-$loader = new UserLoaderCollection($loaderMember);
+// now let's configure the ChainUserLoader
+$loader = new ChainUserLoader($loaderMember);
 $loader->addLoader($loaderAdmin);
 // that's it
 
@@ -265,7 +265,7 @@ $user = $loader->loadUser("MemberFoo"); // found into the first loader ($loaderM
 $admin = $loader->loadUser("AdminFoo"); // not found into the first loader, so the collection dump to the next, found it and initialize it
 ~~~
 
-That was an abstract representation of the UserLoaderCollection, but we can imagine wanting to load users from multiple sources without the need to always provide a specific one each time.
+That was an abstract representation of the ChainUserLoader, but we can imagine wanting to load users from multiple sources without the need to always provide a specific one each time.
 
 ## 5. Role hierarchy
 
