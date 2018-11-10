@@ -41,7 +41,6 @@ UserInterface allows you to interact with the user on multiple ways.
 Let see a simple example implying the native implementation of this interface
 
 ~~~php
-<?php
 // initializing a simple user
 $user = new User("Foo");
 // that's it, now you have a user instance with Foo setted as its name
@@ -61,7 +60,6 @@ They can be setted during the user initialization and later altered via some met
 #### 2.1.1 Accessing attributes
 
 ~~~php
-<?php
 // initializing user with already setted attributes
 $user = new User("Foo", ["foo" => "bar"]);
 // this user now has an attribute foo with a value bar
@@ -90,7 +88,6 @@ Attributes, as already said, can be altered after the user has been initialized.
 The implementation via its interface allows you to add and delete attributes whenever you want
 
 ~~~php
-<?php
 // let's initialize an empty user
 $user = new User("Foo");
 
@@ -115,7 +112,6 @@ Roles are simple values setted into the user. <br />
 Can be useful for allowing/disallowing him access to some features of the application.
 
 ~~~php
-<?php
 // let's initialize a user
 $user = new User("Foo", null, ["ANONYMOUS", "MEMBER"]);
 // now we have a user with two roles setted
@@ -137,7 +133,6 @@ User store allows you to persist a user during its navigation in your applicatio
 The interface provides you some methods to achieve that.
 
 ~~~php
-<?php
 $user = new User("Foo");
 
 // store initialization
@@ -181,7 +176,6 @@ This library allows you via the ArrayPhpFileUserLoader class to retrieve a speci
 Let's see an example implying usage of the two ways.
 
 ~~~php
-<?php
 // members.users.php
 
 // list of all members of my application
@@ -209,7 +203,6 @@ return [
 Now let's initialize the loader
 
 ~~~php
-<?php
 $adminUsers = [
     "AdminUserFoo"    =>    [
         "roles"           =>    [
@@ -249,7 +242,6 @@ $adminBar = $loader->loadUser("AdminUserBar");
 The ChainUserLoader is a simple container registering a set of UserLoaderInterface implementations doing its best to find a loadable user from all registered loaders.
 
 ~~~php
-<?php
 // let's assume all members are loadables via this loader
 $loaderMember = new UserLoaderImplementation();
 
@@ -280,7 +272,6 @@ Trying to get a non setted role from the hierarchy will result a UndefinedRoleEx
 To initialize a role hierarchy, this library provides you a simple implementation or RoleHierarchyInterface.
 
 ~~~php
-<?php
 $hierarchy = new RoleHierarchy();
 
 // let's add some basics roles
@@ -311,7 +302,6 @@ A more user friendly interface (RoleHierarchyUserInteractionInterface) provides 
 This interface extends directly from the RoleHierarchyInterface and requires a user setted via the UserAwareInterface.
 
 ~~~php
-<?php
 // simple example
 $hierarchy = new RoleHierarchyUserInteraction();
 $hierarchy->addRole("BaseFooRole");
