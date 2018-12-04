@@ -1,5 +1,3 @@
 # User Component
 
-Far from being finished
-
-User component
+Not maintened anymore - See 2.0 Version
