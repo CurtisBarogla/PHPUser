@@ -1,3 +1,3 @@
 # User Component
 
-Not maintened anymore - See 2.0 Version
+Not maintained anymore - See 2.0 Version
